@@ -16,7 +16,8 @@ turn word display n =
 
 mkguess :: String -> String -> Int -> IO ()
 mkguess word display n =
-    do putStrLn (display ++ "  " ++ take n (repeat '*'))
+    do
+        putStrLn (display ++ "  " ++ take n (repeat '*'))
         putStr "  Enter your guess: "
         q <- getLine
         let (correct, display') = check word display (q!!0)
