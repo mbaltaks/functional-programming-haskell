@@ -59,3 +59,5 @@ guessgame :: Int -> IO ()
 guessgame n = do
     word <- random_word_action
     turn_action word (hidden_word word) n
+
+main = guessgame 10
