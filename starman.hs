@@ -11,24 +11,24 @@ check word display c
         else y | (x,y) <- zip word display])
 
 
-turn :: String -> String -> Int -> IO ()
-turn word display n =
+turn_action :: String -> String -> Int -> IO ()
+turn_action word display n =
     do if n==0
         then putStrLn "You lose"
         else if word==display
             then putStrLn "You win!"
-            else mkguess word display n
+            else make_guess_action word display n
 
 
-mkguess :: String -> String -> Int -> IO ()
-mkguess word display n =
+make_guess_action :: String -> String -> Int -> IO ()
+make_guess_action word display n =
     do
         putStrLn (display ++ "  " ++ take n (repeat '*'))
         putStr "  Enter your guess: "
         q <- getLine
         let (correct, display') = check word display (q!!0)
         let n' = if correct then n else n-1
-        turn word display' n'
+        turn_action word display' n'
 
 
 hidden_word :: String -> String
@@ -36,7 +36,7 @@ hidden_word word = ['-' | x <- word]
 
 
 starman :: String -> Int -> IO ()
-starman word n = turn word (hidden_word word) n
+starman word n = turn_action word (hidden_word word) n
 
 --
 dictionary_unsafe :: String
@@ -61,9 +61,6 @@ random_number_action = randomRIO (0, 235886)
 
 word_from_list :: Int -> String -> String
 word_from_list line_number word_list = (lines word_list) !! line_number
-    -- do
-    --     let words = lines word_list
-    --     words !! line_number
 
 random_word_action :: IO String
 random_word_action = do
@@ -79,10 +76,11 @@ random_word_action = do
 guessgame :: Int -> IO ()
 guessgame n = do
     word <- random_word_action
-    let hidden = hidden_word word
-    print word
-    -- return $ turn word hidden n
-    -- return $ turn word hidden n
-    -- return $ turn word ['-' | x <- word] n
+    turn_action word (hidden_word word) n
+    -- let hidden = hidden_word word
+    -- print word
+    -- return $ turn_action word hidden n
+    -- return $ turn_action word hidden n
+    -- return $ turn_action word ['-' | x <- word] n
     -- turn_wrapper word n
-    -- turn word ['-' | x <- word] n
+    -- turn_action word ['-' | x <- word] n
