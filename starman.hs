@@ -9,23 +9,22 @@ check word display c
 
 
 turn_action :: String -> String -> Int -> IO ()
-turn_action word display n =
-    do if n==0
-        then putStrLn "You lose"
-        else if word==display
-            then putStrLn "You win!"
-            else make_guess_action word display n
+turn_action word display n = do
+    if n==0
+    then putStrLn "You lose"
+    else if word==display
+        then putStrLn "You win!"
+        else make_guess_action word display n
 
 
 make_guess_action :: String -> String -> Int -> IO ()
-make_guess_action word display n =
-    do
-        putStrLn (display ++ "  " ++ take n (repeat '*'))
-        putStr "  Enter your guess: "
-        q <- getLine
-        let (correct, display') = check word display (q!!0)
-        let n' = if correct then n else n-1
-        turn_action word display' n'
+make_guess_action word display n = do
+    putStrLn (display ++ "  " ++ take n (repeat '*'))
+    putStr "  Enter your guess: "
+    q <- getLine
+    let (correct, display') = check word display (q!!0)
+    let n' = if correct then n else n-1
+    turn_action word display' n'
 
 
 hidden_word :: String -> String
