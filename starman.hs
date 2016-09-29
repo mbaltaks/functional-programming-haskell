@@ -50,8 +50,9 @@ random_word_action = do
     -- bind the results of actions to a name, within the IO monad
     content <- dictionary_action
     n <- random_number_action
+    let word = word_from_list n content
     -- `return` 'lifts' the result of a pure function into the IO monad
-    return $ word_from_list n content
+    return $ word
 
 
 guessgame :: Int -> IO ()
