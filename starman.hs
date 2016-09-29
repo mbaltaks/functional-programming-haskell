@@ -42,11 +42,11 @@ starman word n = turn word (hidden_word word) n
 dictionary_unsafe :: String
 dictionary_unsafe = unsafePerformIO . readFile $ "/usr/share/dict/words"
 
-dictionary :: IO String
-dictionary = readFile "/usr/share/dict/words"
+dictionary_action :: IO String
+dictionary_action = readFile "/usr/share/dict/words"
 
-random_number :: IO Int
-random_number = randomRIO (0, 235886)
+random_number_action :: IO Int
+random_number_action = randomRIO (0, 235886)
 
 -- line_number :: Int
 -- -- line_number = n <- getStdRandom (randomR (0, 235886)) n
@@ -60,15 +60,15 @@ random_number = randomRIO (0, 235886)
 -- rand_number n = n
 
 word_from_list :: Int -> String -> String
-word_from_list line_number word_list =
-    do
-        let words = lines word_list
-        words !! line_number
+word_from_list line_number word_list = (lines word_list) !! line_number
+    -- do
+    --     let words = lines word_list
+    --     words !! line_number
 
-random_word :: IO String
-random_word = do
-    content <- dictionary
-    n <- random_number
+random_word_action :: IO String
+random_word_action = do
+    content <- dictionary_action
+    n <- random_number_action
     return $ word_from_list n content
 
 -- turn_wrapper :: IO String -> Int -> IO String
@@ -78,7 +78,11 @@ random_word = do
 
 guessgame :: Int -> IO ()
 guessgame n = do
-    word <- random_word
+    word <- random_word_action
+    let hidden = hidden_word word
     print word
+    -- return $ turn word hidden n
+    -- return $ turn word hidden n
+    -- return $ turn word ['-' | x <- word] n
     -- turn_wrapper word n
     -- turn word ['-' | x <- word] n
