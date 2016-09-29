@@ -11,9 +11,9 @@ check word display c
 turn_action :: String -> String -> Int -> IO ()
 turn_action word display n = do
     if n==0
-    then putStrLn "You lose"
+    then putStrLn ("You lose (it was " ++ word ++ ")")
     else if word==display
-        then putStrLn "You win!"
+        then putStrLn ("You win! (it was " ++ word ++ ")")
         else make_guess_action word display n
 
 
