@@ -39,8 +39,8 @@ starman word n = turn_action word (hidden_word word) n
 dictionary_action :: IO String
 dictionary_action = readFile "/usr/share/dict/words"
 
-random_number_action :: IO Int
-random_number_action = randomRIO (0, 235886)
+random_number_action :: Int -> IO Int
+random_number_action end = randomRIO (0, end)
 
 word_from_list :: Int -> String -> String
 word_from_list line_number word_list = (lines word_list) !! line_number
@@ -49,7 +49,8 @@ random_word_action :: IO String
 random_word_action = do
     -- bind the results of actions to a name, within the IO monad
     content <- dictionary_action
-    n <- random_number_action
+    let l = length (lines content)
+    n <- random_number_action l
     let word = word_from_list n content
     -- `return` 'lifts' the result of a pure function into the IO monad
     return $ word
