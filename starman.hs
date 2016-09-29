@@ -47,8 +47,10 @@ word_from_list line_number word_list = (lines word_list) !! line_number
 
 random_word_action :: IO String
 random_word_action = do
+    -- bind the results of actions to a name, within the IO monad
     content <- dictionary_action
     n <- random_number_action
+    -- `return` 'lifts' the result of a pure function into the IO monad
     return $ word_from_list n content
 
 
