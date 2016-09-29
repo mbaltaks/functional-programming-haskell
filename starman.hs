@@ -1,7 +1,4 @@
 import System.Random
-import System.IO
-import Control.Monad
-import System.IO.Unsafe
 
 
 check :: String -> String -> Char -> (Bool, String)
@@ -39,25 +36,12 @@ starman :: String -> Int -> IO ()
 starman word n = turn_action word (hidden_word word) n
 
 --
-dictionary_unsafe :: String
-dictionary_unsafe = unsafePerformIO . readFile $ "/usr/share/dict/words"
 
 dictionary_action :: IO String
 dictionary_action = readFile "/usr/share/dict/words"
 
 random_number_action :: IO Int
 random_number_action = randomRIO (0, 235886)
-
--- line_number :: Int
--- -- line_number = n <- getStdRandom (randomR (0, 235886)) n
--- -- line_number = random_number >>= return . rand_number
--- line_number = do
---     -- a <- random_number
---     let a = random_number
---     return $ rand_number a
-
--- rand_number :: Int -> Int
--- rand_number n = n
 
 word_from_list :: Int -> String -> String
 word_from_list line_number word_list = (lines word_list) !! line_number
@@ -68,19 +52,8 @@ random_word_action = do
     n <- random_number_action
     return $ word_from_list n content
 
--- turn_wrapper :: IO String -> Int -> IO String
--- turn_wrapper word n =
---     do
---         return $ turn word ['-' | x <- word] n
 
 guessgame :: Int -> IO ()
 guessgame n = do
     word <- random_word_action
     turn_action word (hidden_word word) n
-    -- let hidden = hidden_word word
-    -- print word
-    -- return $ turn_action word hidden n
-    -- return $ turn_action word hidden n
-    -- return $ turn_action word ['-' | x <- word] n
-    -- turn_wrapper word n
-    -- turn_action word ['-' | x <- word] n
