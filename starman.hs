@@ -31,8 +31,12 @@ mkguess word display n =
         turn word display' n'
 
 
+hidden_word :: String -> String
+hidden_word word = ['-' | x <- word]
+
+
 starman :: String -> Int -> IO ()
-starman word n = turn word ['-' | x <- word] n
+starman word n = turn word (hidden_word word) n
 
 --
 dictionary_unsafe :: String
